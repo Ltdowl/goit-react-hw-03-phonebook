@@ -1,0 +1,8 @@
+.container {
+    margin: 0 auto;
+    width: 320px;
+}
+.title {
+    text-transform: uppercase;
+    text-align: center;
+}
