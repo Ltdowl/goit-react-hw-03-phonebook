@@ -31,6 +31,24 @@ export default class Phonebook extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    try {
+      const localContacts = JSON.parse(localStorage.getItem('contacts'));
+      if (localContacts) {
+        this.setState({ contacts: localContacts });
+      }
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }
+
   addContactIntoState = newContact => {
     const { contacts } = this.state;
 
@@ -67,10 +85,7 @@ export default class Phonebook extends Component {
         <ContactForm addContactIntoState={this.addContactIntoState} />
 
         <h2 className={styles.title}>Contacts</h2>
-        <Filter
-          onChange={this.handleFilterChange}
-          value={filter}
-        />
+        <Filter onChange={this.handleFilterChange} value={filter} />
         <ContactList
           renderContacts={filteredContacts}
           deleteContacts={this.deleteContactFromState}
